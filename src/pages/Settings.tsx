@@ -101,6 +101,24 @@ export default function Settings() {
                 <div className="w-11 h-6 bg-slate-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary/30 dark:peer-focus:ring-primary/80 rounded-full peer dark:bg-slate-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-slate-600 peer-checked:bg-primary"></div>
               </label>
             </div>
+            
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="font-medium">Cycle Start Date</p>
+                <p className="text-sm text-slate-500">Select which day of the month your budget cycle begins</p>
+              </div>
+              <select
+                value={settings.cycleStartDate || 1}
+                onChange={e => updateSettings({ cycleStartDate: parseInt(e.target.value, 10) })}
+                className="input w-32 cursor-pointer"
+              >
+                {Array.from({ length: 28 }, (_, i) => i + 1).map(day => (
+                  <option key={day} value={day}>
+                    {day}{day % 10 === 1 && day !== 11 ? 'st' : day % 10 === 2 && day !== 12 ? 'nd' : day % 10 === 3 && day !== 13 ? 'rd' : 'th'}
+                  </option>
+                ))}
+              </select>
+            </div>
           </div>
         </div>
 

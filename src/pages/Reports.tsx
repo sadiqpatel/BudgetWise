@@ -1,6 +1,6 @@
 import { useBudgetData } from '../hooks/useBudgetData';
 import { useBudgetStore } from '../store/useBudgetStore';
-import { formatCurrency } from '../utils';
+import { formatCurrency, isTransactionInCycle } from '../utils';
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, BarChart, Bar, XAxis, YAxis, CartesianGrid } from 'recharts';
 
 const COLORS = ['#2563EB', '#22C55E', '#F59E0B', '#EF4444', '#8B5CF6', '#EC4899', '#14B8A6', '#F97316'];
@@ -25,7 +25,7 @@ export default function Reports() {
     const monthStr = date.toISOString().slice(0, 7); // YYYY-MM
     
     const spent = allTransactions
-      .filter(t => t.date.startsWith(monthStr))
+      .filter(t => isTransactionInCycle(t.date, monthStr, settings.cycleStartDate || 1))
       .reduce((sum, t) => sum + t.amount, 0);
       
     barData.push({

@@ -17,6 +17,7 @@ export interface Settings {
   currency: string;
   darkMode: boolean;
   carryForward: boolean;
+  cycleStartDate?: number;
 }
 
 export interface BudgetStore {

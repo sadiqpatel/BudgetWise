@@ -1,9 +1,10 @@
 import { useBudgetStore } from '../store/useBudgetStore';
+import { isTransactionInCycle } from '../utils';
 
 export function useBudgetData() {
-  const { transactions, categories, selectedMonth } = useBudgetStore();
+  const { transactions, categories, selectedMonth, settings } = useBudgetStore();
 
-  const currentMonthTransactions = transactions.filter(t => t.date.startsWith(selectedMonth));
+  const currentMonthTransactions = transactions.filter(t => isTransactionInCycle(t.date, selectedMonth, settings.cycleStartDate || 1));
 
   const totalBudget = categories.reduce((sum, cat) => sum + cat.budget, 0);
   const totalSpent = currentMonthTransactions.reduce((sum, t) => sum + t.amount, 0);

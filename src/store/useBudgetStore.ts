@@ -19,6 +19,7 @@ export const useBudgetStore = create<BudgetStore>()(
         currency: 'CAD',
         darkMode: false,
         carryForward: false,
+        cycleStartDate: 1,
       },
       selectedMonth: getCurrentMonthStr(),
 

@@ -2,6 +2,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { useBudgetStore } from '../store/useBudgetStore';
+import { isTransactionInCycle } from '../utils';
 
 const schema = z.object({
   name: z.string().min(1, 'Name is required'),
@@ -18,7 +19,7 @@ interface Props {
 }
 
 export default function TransactionForm({ onSuccess }: Props) {
-  const { categories, addTransaction, transactions, selectedMonth } = useBudgetStore();
+  const { categories, addTransaction, transactions, selectedMonth, settings } = useBudgetStore();
   
   const { register, handleSubmit, formState: { errors }, reset } = useForm<FormData>({
     resolver: zodResolver(schema),
@@ -44,7 +45,7 @@ export default function TransactionForm({ onSuccess }: Props) {
     // Budget Warning logic (mock implementation for simplicity, could use a proper toast library)
     const category = categories.find(c => c.id === data.categoryId);
     const spentThisMonth = transactions
-      .filter(t => t.categoryId === data.categoryId && t.date.startsWith(selectedMonth))
+      .filter(t => t.categoryId === data.categoryId && isTransactionInCycle(t.date, selectedMonth, settings.cycleStartDate || 1))
       .reduce((sum, t) => sum + t.amount, 0);
       
     if (category) {
