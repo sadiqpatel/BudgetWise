@@ -19,7 +19,7 @@ export default function Dashboard() {
     cycleText = format(new Date(year, month - 1, 1), 'MMMM yyyy');
   } else {
     const cycleStart = new Date(year, month - 1, startDay);
-    const cycleEnd = new Date(year, month, startDay - 1);
+    const cycleEnd = new Date(year, month, startDay);
     cycleText = `${format(cycleStart, 'MMM d')} to ${format(cycleEnd, 'MMM d, yyyy')}`;
   }
 

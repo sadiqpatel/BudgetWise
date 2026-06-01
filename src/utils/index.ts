@@ -45,16 +45,18 @@ export function isTransactionInCycle(transactionDateStr: string, cycleMonthStr: 
   
   // Custom cycle: e.g. "2026-05" with startDay 28 means:
   // Starts: 2026-05-28
-  // Ends: 2026-06-27
+  // Ends: 2026-06-28 (exclusive)
   // Note: JS Date month is 0-indexed (0 = Jan).
   const cycleStart = new Date(year, month - 1, startDay);
-  const cycleEnd = new Date(year, month, startDay - 1);
+  const cycleEnd = new Date(year, month, startDay);
   
-  const txDate = new Date(transactionDateStr);
+  const [tYear, tMonth, tDay] = transactionDateStr.split('-');
+  const txDate = new Date(parseInt(tYear, 10), parseInt(tMonth, 10) - 1, parseInt(tDay, 10));
+  
   // Compare ignoring time components
   txDate.setHours(0, 0, 0, 0);
   cycleStart.setHours(0, 0, 0, 0);
-  cycleEnd.setHours(23, 59, 59, 999);
+  cycleEnd.setHours(0, 0, 0, 0);
   
-  return txDate >= cycleStart && txDate <= cycleEnd;
+  return txDate >= cycleStart && txDate < cycleEnd;
 }

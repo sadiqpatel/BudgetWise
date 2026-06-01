@@ -54,7 +54,7 @@ export default function TransactionForm({ onSuccess }: Props) {
       
       if (percentage > 100) {
         alert(`Warning: This expense puts you over budget for ${category.name}!`);
-      } else if (percentage >= 90) {
+      } else if (percentage >= 90 && percentage < 100) {
         alert(`Warning: You are at ${percentage.toFixed(0)}% of your ${category.name} budget.`);
       }
     }
