@@ -40,4 +40,5 @@ export interface BudgetStore {
   setSelectedMonth: (month: string) => void;
 
   importData: (data: { categories: Category[], transactions: Transaction[], settings: Settings }) => void;
+  resetCategories: () => void;
 }

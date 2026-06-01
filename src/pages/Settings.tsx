@@ -145,9 +145,22 @@ export default function Settings() {
               ref={fileInputRef}
               onChange={handleImportJSON}
             />
+
+            <button 
+              onClick={() => {
+                if (window.confirm("This will replace all your current categories with the default ones. Are you sure?")) {
+                  useBudgetStore.getState().resetCategories();
+                  setImportStatus('Default categories loaded!');
+                  setTimeout(() => setImportStatus(''), 3000);
+                }
+              }} 
+              className="btn-secondary flex items-center gap-2 text-primary"
+            >
+              Load Default Categories
+            </button>
           </div>
           {importStatus && (
-            <p className={`mt-2 text-sm ${importStatus.includes('successfully') ? 'text-success' : 'text-danger'}`}>
+            <p className={`mt-2 text-sm ${importStatus.includes('successfully') || importStatus.includes('loaded') ? 'text-success' : 'text-danger'}`}>
               {importStatus}
             </p>
           )}
