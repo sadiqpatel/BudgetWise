@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import { BudgetStore, Category, Transaction } from '../types';
+import { BudgetStore, Category } from '../types';
 import { generateId, getCurrentMonthStr } from '../utils';
 
 // Seed data

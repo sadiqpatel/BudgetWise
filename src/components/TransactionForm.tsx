@@ -2,7 +2,6 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { useBudgetStore } from '../store/useBudgetStore';
-import { getCurrentMonthStr } from '../utils';
 
 const schema = z.object({
   name: z.string().min(1, 'Name is required'),
