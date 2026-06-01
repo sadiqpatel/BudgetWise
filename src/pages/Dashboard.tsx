@@ -3,14 +3,32 @@ import { useBudgetStore } from '../store/useBudgetStore';
 import { formatCurrency } from '../utils';
 import CategoryCard from '../components/CategoryCard';
 import TransactionForm from '../components/TransactionForm';
+import { format } from 'date-fns';
 
 export default function Dashboard() {
   const { totalBudget, totalSpent, remaining, savingsPercentage, categories } = useBudgetData();
-  const { settings } = useBudgetStore();
+  const { settings, selectedMonth } = useBudgetStore();
+
+  const [yearStr, monthStr] = selectedMonth.split('-');
+  const year = parseInt(yearStr, 10);
+  const month = parseInt(monthStr, 10);
+  const startDay = settings.cycleStartDate || 1;
+  
+  let cycleText = '';
+  if (startDay === 1) {
+    cycleText = format(new Date(year, month - 1, 1), 'MMMM yyyy');
+  } else {
+    const cycleStart = new Date(year, month - 1, startDay);
+    const cycleEnd = new Date(year, month, startDay - 1);
+    cycleText = `${format(cycleStart, 'MMM d')} to ${format(cycleEnd, 'MMM d, yyyy')}`;
+  }
 
   return (
     <div className="space-y-6">
-      <h2 className="text-2xl font-bold">Dashboard</h2>
+      <div>
+        <h2 className="text-2xl font-bold">Dashboard</h2>
+        <p className="text-slate-500 dark:text-slate-400">Budget Cycle: {cycleText}</p>
+      </div>
 
       {/* Summary Cards */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
